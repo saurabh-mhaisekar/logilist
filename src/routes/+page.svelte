@@ -1,24 +1,29 @@
 <script lang="ts">
-  let name = $state("");
-  let greetMsg = $state("");
-
-  async function greet(event: Event) {
-    event.preventDefault();
-    greetMsg = "Hello, " + name;
-  }
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import Node from "$lib/components/Node.svelte";
+  import { nodesStore, addNode } from "$lib/stores/nodesStore";
+  import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
+  let title = $state("Untitled");
 </script>
 
-<main class="container">
-  <h1>Welcome to Tauri + Svelte</h1>
-
-  <form class="row" onsubmit={greet}>
-    <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button type="submit" class="bg-blue-500 text-white p-2 rounded-md"
-      >Greet</button
+<div class="w-full max-w-3xl mx-auto px-4">
+  <PageTitle {title} />
+  <ul class="flex flex-col gap-2 list-disc pl-4">
+    {#each $nodesStore as node}
+      <li>
+        <Node title={node.title} id={node.id} />
+      </li>
+    {/each}
+  </ul>
+  <div class="mt-4">
+    <button
+      onclick={() => addNode()}
+      class="bg-blue-500 text-white p-2 rounded-md"
     >
-  </form>
-  <p class="text-red-500">{greetMsg}</p>
-</main>
+      <PlusIcon />
+    </button>
+  </div>
+</div>
 
 <style lang="postcss">
   @reference "tailwindcss";
