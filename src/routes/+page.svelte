@@ -10,8 +10,8 @@
   <PageTitle {title} />
   <ul class="flex flex-col gap-2 list-disc pl-4">
     {#each $nodesStore as node}
-      <li>
-        <Node title={node.title} id={node.id} />
+      <li class="text-lg vertical-align-middle">
+        <Node title={node.title} id={node.id} isNew={node.title === ""} />
       </li>
     {/each}
   </ul>

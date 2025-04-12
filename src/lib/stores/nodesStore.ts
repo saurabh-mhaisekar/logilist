@@ -4,18 +4,18 @@ import { writable } from "svelte/store";
 export const nodesStore = writable<NodeInterface[]>([]);
 
 export function addNode() {
-  // generate guid
   const id = crypto.randomUUID();
-  const newNode: NodeInterface = { id, title: "" };
+  const newNode: NodeInterface = { id, title: "", status: "active" };
   nodesStore.update((nodes) => [...nodes, newNode]);
+  return id;
 }
 
 export function deleteNode(id: string) {
   nodesStore.update((nodes) => nodes.filter((node) => node.id !== id));
 }
 
-export function updateNode(id: string, title: string) {
+export function updateNode(id: string, node: NodeInterface) {
   nodesStore.update((nodes) =>
-    nodes.map((node) => (node.id === id ? { ...node, title } : node))
+    nodes.map((n) => (n.id === id ? { ...n, ...node } : n))
   );
 }
