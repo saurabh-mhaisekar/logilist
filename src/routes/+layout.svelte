@@ -1,3 +1,3 @@
-<div class="min-h-screen bg-gray-100 p-8">
+<div class="min-h-screen p-8">
   <slot />
 </div>
