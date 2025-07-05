@@ -1,25 +1,39 @@
 <script lang="ts">
-  import PageTitle from "$lib/components/PageTitle.svelte";
-  import Node from "$lib/components/Node.svelte";
-  import { nodesStore, addNode } from "$lib/stores/nodesStore";
   import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
-  let title = $state("Untitled");
+  import Item from "$lib/components/Item.svelte";
+  import PageTitle from "$lib/components/PageTitle.svelte";
+  import type ItemInterface from "$lib/interfaces/ItemInterface";
+  // Variables
+  let title = $state("");
+  let itemDescription = $state("");
+  let items = $state<ItemInterface[]>([]);
+
+  let lastAddedItemId = $state<string | null>(null);
+
+  const addItem = () => {
+    const id = crypto.randomUUID();
+    const newItem: ItemInterface = { id, description: "", status: "active" };
+    items.push(newItem);
+    lastAddedItemId = id;
+    return id;
+  };
 </script>
 
 <div class="w-full max-w-3xl mx-auto px-4">
   <PageTitle {title} />
   <ul class="flex flex-col gap-2 list-disc pl-4">
-    {#each $nodesStore as node}
+    {#each items as item}
       <li class="text-lg vertical-align-middle">
-        <Node title={node.title} id={node.id} isNew={node.title === ""} />
+        <Item
+          {item}
+          onPressEnter={() => addItem()}
+          isNew={item.id === lastAddedItemId}
+        />
       </li>
     {/each}
   </ul>
   <div class="mt-4">
-    <button
-      onclick={() => addNode()}
-      class="bg-blue-500 text-white p-2 rounded-md"
-    >
+    <button onclick={() => addItem()} class="p-2 text-gray-500">
       <PlusIcon />
     </button>
   </div>
