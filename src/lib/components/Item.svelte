@@ -1,5 +1,6 @@
 <script lang="ts">
   import type ItemInterface from "$lib/interfaces/ItemInterface";
+  import { updateItem } from "$lib/util/local_db_ops";
   import { onMount } from "svelte";
 
   export let item: ItemInterface;
@@ -7,6 +8,7 @@
   export let isNew = false;
 
   let inputElement: HTMLInputElement;
+  let updateTimeout: NodeJS.Timeout;
 
   onMount(() => {
     if (isNew) {
@@ -25,6 +27,12 @@
       if (e.key === "Enter") {
         onPressEnter();
       }
+    }}
+    oninput={() => {
+      clearTimeout(updateTimeout);
+      updateTimeout = setTimeout(() => {
+        updateItem(item);
+      }, 1000);
     }}
   />
 </div>

@@ -3,6 +3,7 @@
   import Item from "$lib/components/Item.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import type ItemInterface from "$lib/interfaces/ItemInterface";
+  import { insertItem } from "$lib/util/local_db_ops";
   // Variables
   let title = $state("");
   let itemDescription = $state("");
@@ -15,6 +16,7 @@
     const newItem: ItemInterface = { id, description: "", status: "active" };
     items.push(newItem);
     lastAddedItemId = id;
+    insertItem(newItem);
     return id;
   };
 </script>
