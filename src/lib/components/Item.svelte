@@ -15,24 +15,38 @@
       inputElement.focus();
     }
   });
+
+  const handleInput = () => {
+    clearTimeout(updateTimeout);
+    updateTimeout = setTimeout(() => {
+      updateItem(item);
+    }, 1000);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === "Enter") {
+      inputElement.blur();
+      if (item.status === "active") {
+        item.status = "completed";
+      } else {
+        item.status = "active";
+      }
+    } else if (e.key === "Enter" && e.ctrlKey) {
+      onPressEnter();
+    }
+  };
 </script>
 
 <div class="flex w-full justify-between">
   <input
     type="text"
-    class="mr-2 border-0 focus:border-0 focus:outline-none active:border-0 w-full"
+    class="mr-2 border-0 focus:border-0 focus:outline-none active:border-0 w-full {item.status ===
+    'completed'
+      ? 'line-through text-gray-500'
+      : ''}"
     bind:value={item.description}
     bind:this={inputElement}
-    onkeydown={(e) => {
-      if (e.key === "Enter") {
-        onPressEnter();
-      }
-    }}
-    oninput={() => {
-      clearTimeout(updateTimeout);
-      updateTimeout = setTimeout(() => {
-        updateItem(item);
-      }, 1000);
-    }}
+    onkeydown={handleKeyDown}
+    oninput={handleInput}
   />
 </div>

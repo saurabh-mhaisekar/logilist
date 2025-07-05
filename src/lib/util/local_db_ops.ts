@@ -16,10 +16,19 @@ const insertItem = async (item: ItemInterface) => {
   ]);
 };
 
-const getItems = async () => {
+const getItems = async (): Promise<ItemInterface[]> => {
   const db = await loadDatabase();
-  const items = await db.select("SELECT * FROM tbl_items");
-  return items;
+  const items = await db.select("SELECT * FROM tbl_items") as any[];
+
+  const itemsArray: ItemInterface[] = [];
+  items.forEach((item: any) => {
+    itemsArray.push({
+      id: item.item_id,
+      description: item.description,
+      status: item.status
+    });
+  });
+  return itemsArray;
 };
 
  const updateItem = async (item: ItemInterface) => {

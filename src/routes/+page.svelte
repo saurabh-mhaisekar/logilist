@@ -3,7 +3,8 @@
   import Item from "$lib/components/Item.svelte";
   import PageTitle from "$lib/components/PageTitle.svelte";
   import type ItemInterface from "$lib/interfaces/ItemInterface";
-  import { insertItem } from "$lib/util/local_db_ops";
+  import { getItems, insertItem } from "$lib/util/local_db_ops";
+  import { onMount } from "svelte";
   // Variables
   let title = $state("");
   let itemDescription = $state("");
@@ -19,6 +20,15 @@
     insertItem(newItem);
     return id;
   };
+
+  onMount(() => {
+    console.log("onMount");
+    getItems().then((dbItems: ItemInterface[]) => {
+      dbItems.forEach((item) => {
+        items.push(item);
+      });
+    });
+  });
 </script>
 
 <div class="w-full max-w-3xl mx-auto px-4">
