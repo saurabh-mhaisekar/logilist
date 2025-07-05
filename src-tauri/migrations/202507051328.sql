@@ -1,0 +1,2 @@
+ALTER TABLE tbl_items ADD COLUMN parent_id TEXT;
+ALTER TABLE tbl_items ADD COLUMN level INTEGER DEFAULT 0;

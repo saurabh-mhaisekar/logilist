@@ -14,6 +14,12 @@ pub fn run() {
             description: "Create tbl_items table",
             sql: include_str!("../migrations/202507051327.sql"),
             kind: MigrationKind::Up,
+        },
+        Migration{
+            version: 2,
+            description: "Add parent_id and level columns",
+            sql: include_str!("../migrations/202507051328.sql"),
+            kind: MigrationKind::Up,
         }
     ];
     tauri::Builder::default()
