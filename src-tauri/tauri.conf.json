@@ -12,9 +12,21 @@
   "app": {
     "windows": [
       {
-        "title": "logilist",
+        "label": "main",
+        "title": "Logilist",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "url": "/"
+      },
+      {
+        "label": "splashscreen",
+        "url": "splashscreen.html",
+        "width": 1200,
+        "height": 800,
+        "decorations": false,
+        "visibleOnAllWorkspaces": true,
+        "center": true,
+        "visible": false
       }
     ],
     "security": {
